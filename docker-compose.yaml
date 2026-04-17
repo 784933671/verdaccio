@@ -1,14 +1,19 @@
-version: '2.1'
 services:
   verdaccio:
-    build: .
+    image: verdaccio/verdaccio:local
     container_name: verdaccio
+    networks:
+      - 1panel-network
     environment:
-      - VERDACCIO_PORT
+      - VERDACCIO_PORT=40087
     ports:
-      - $VERDACCIO_PORT:$VERDACCIO_PORT
+      - 40087:40087
     volumes:
-      - verdaccio-storage:/verdaccio/storage
-volumes:
-  verdaccio:
-    driver: local
+      - ./data/storage:/verdaccio/storage
+      - ./data/config:/verdaccio/conf
+      - ./data/plugins:/verdaccio/plugins
+    labels:
+      createdBy: 'Apps'
+networks:
+  1panel-network:
+    external: true
