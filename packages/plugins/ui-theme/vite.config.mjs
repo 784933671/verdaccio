@@ -63,7 +63,7 @@ export default defineConfig(({ command }) => ({
   // In build mode, all dynamic chunk imports must be prefixed with /-/static/
   // so Verdaccio's static file server can resolve them.
   // In dev mode, Vite serves everything from / directly.
-  base: command === 'build' ? '/-/static/' : '/',
+  base: command === 'build' ? './' : '/',
 
   define: {
     __DEBUG__: JSON.stringify(false),
