@@ -1,13 +1,11 @@
 services:
   verdaccio:
-    image: verdaccio/verdaccio:local
+    image: verdaccio:6.5.0
     container_name: verdaccio
     networks:
       - 1panel-network
     environment:
-      - VERDACCIO_PORT=40087
-    ports:
-      - 40087:40087
+      - VERDACCIO_PORT=4873
     volumes:
       - ./data/storage:/verdaccio/storage
       - ./data/config:/verdaccio/conf
