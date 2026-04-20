@@ -43,33 +43,11 @@ jobs:
           fetch-depth: 0
       - name: Check changeset
         uses: ./.github/actions/changeset-check        
-  prepare:
-    needs: [changeset-check]
-    # Avoid running on draft PRs; always() allows this to proceed when changeset-check is skipped (Renovate)
-    if: ${{ always() && !failure() && !cancelled() && github.event.pull_request.draft == false }}
-    runs-on: ubuntu-latest
-    name: setup
-    services:
-      verdaccio:
-        image: verdaccio/verdaccio:6
-        ports:
-          - 4873:4873
-        env:
-          NODE_ENV: production
-          options: >-
-            --health-cmd="curl -f http://0.0.0.0:4873/-/ping || exit 1"
-            --health-interval=10s
-            --health-timeout=20s
-            --health-retries=6
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Install dependencies via Verdaccio registry
-        uses: ./.github/actions/install-app
   lint-and-format:
     runs-on: ubuntu-latest
     name: Lint & Format
-    needs: prepare
-    if: ${{ always() && !failure() && !cancelled() }}
+    needs: [changeset-check]
+    if: ${{ always() && !failure() && !cancelled() && github.event.pull_request.draft == false }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install dependencies
@@ -97,7 +75,7 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
       - name: Cache build artifacts
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: |
             packages/*/build
@@ -148,7 +126,7 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
       - name: Restore build artifacts
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             packages/*/build
@@ -181,7 +159,6 @@ jobs:
           - npm@10
           - npm@11
           - yarn-classic
-          - yarn-modern@2
           - yarn-modern@3
           - yarn-modern@4
           - pnpm@9
@@ -196,7 +173,7 @@ jobs:
         with:
           node-version: ${{ steps.nvmrc.outputs.node-version }}
       - name: Restore build artifacts
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             packages/*/build
@@ -233,7 +210,7 @@ jobs:
         with:
           node-version: ${{ steps.nvmrc.outputs.node-version }}
       - name: Restore build artifacts
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: |
             packages/*/build
@@ -251,7 +228,7 @@ jobs:
       # locked.
       - name: Cache Cypress binary
         id: cypress-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/Cypress
           key: cypress-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
@@ -292,7 +269,7 @@ jobs:
           path: cypress/videos
           if-no-files-found: ignore
   changeset-validation:
-    needs: [test, e2e-cli, e2e-ui]
+    needs: [build]
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false && always() && !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     name: Changeset validation
@@ -308,7 +285,7 @@ jobs:
       - name: Run changeset version
         run: pnpm ci:version:changeset
   codeql:
-    needs: [test, e2e-cli, e2e-ui]
+    needs: [build]
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false && always() && !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     name: CodeQL Analysis
@@ -335,7 +312,7 @@ jobs:
     if: (github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == 'verdaccio/verdaccio') || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version-file: '.nvmrc'
       - name: Install pnpm
@@ -343,7 +320,7 @@ jobs:
           npm install --global corepack@latest
           corepack enable
           corepack install
-      - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+      - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         with:
           path: ~/.pnpm-store
           key: pnpm-${{ hashFiles('pnpm-lock.yaml') }}
@@ -352,7 +329,7 @@ jobs:
           pnpm config set store-dir ~/.pnpm-store
       - name: Install
         ## we need scripts, pupetter downloads aditional content
-        run: pnpm install --registry http://localhost:4873
+        run: pnpm install --registry https://registry.npmjs.org
       - name: build
         run: pnpm build
       - name: sync
@@ -361,7 +338,7 @@ jobs:
           CONTEXT: production
         run: pnpm crowdin:sync
   cleanup:
-    needs: [test, e2e-cli, e2e-ui, codeql, changeset-validation]
+    needs: [test, e2e-cli, e2e-ui]
     if: always()
     runs-on: ubuntu-latest
     name: Cleanup caches

@@ -1,5 +1,26 @@
 # Change Log
 
+## 5.0.0-next-9.14
+
+### Patch Changes
+
+- @verdaccio/core@9.0.0-next-9.14
+- @verdaccio/config@9.0.0-next-9.14
+- @verdaccio/auth@9.0.0-next-9.14
+- @verdaccio/logger@9.0.0-next-9.14
+- @verdaccio/middleware@9.0.0-next-9.14
+
+## 5.0.0-next-9.13
+
+### Patch Changes
+
+- Updated dependencies [39c369e]
+  - @verdaccio/core@9.0.0-next-9.13
+  - @verdaccio/auth@9.0.0-next-9.13
+  - @verdaccio/config@9.0.0-next-9.13
+  - @verdaccio/logger@9.0.0-next-9.13
+  - @verdaccio/middleware@9.0.0-next-9.13
+
 ## 5.0.0-next-9.12
 
 ### Patch Changes

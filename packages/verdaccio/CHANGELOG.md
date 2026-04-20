@@ -1,5 +1,38 @@
 # verdaccio
 
+## 9.0.0-next-9.14
+
+### Patch Changes
+
+- @verdaccio/ui-theme@9.0.0-next-9.14
+- @verdaccio/server@9.0.0-next-9.14
+- @verdaccio/cli@9.0.0-next-9.14
+- @verdaccio/node-api@9.0.0-next-9.14
+- @verdaccio/hooks@9.0.0-next-9.14
+- @verdaccio/logger@9.0.0-next-9.14
+- verdaccio-audit@14.0.0-next-9.14
+- verdaccio-htpasswd@14.0.0-next-9.14
+- @verdaccio/package-filter@14.0.0-next-9.38
+
+## 9.0.0-next-9.13
+
+### Patch Changes
+
+- 2f37c81: chore: update @verdaccio/e2e-cli to 2.5.0 and @verdaccio/e2e-ui to 2.4.1
+- Updated dependencies [9006b9d]
+- Updated dependencies [f19a638]
+- Updated dependencies [0ae9e93]
+- Updated dependencies [784736f]
+  - @verdaccio/ui-theme@9.0.0-next-9.13
+  - verdaccio-htpasswd@14.0.0-next-9.13
+  - @verdaccio/server@9.0.0-next-9.13
+  - @verdaccio/cli@9.0.0-next-9.13
+  - @verdaccio/hooks@9.0.0-next-9.13
+  - @verdaccio/logger@9.0.0-next-9.13
+  - verdaccio-audit@14.0.0-next-9.13
+  - @verdaccio/package-filter@14.0.0-next-9.37
+  - @verdaccio/node-api@9.0.0-next-9.13
+
 ## 9.0.0-next-9.12
 
 ### Patch Changes

@@ -1,5 +1,29 @@
 # @verdaccio/api
 
+## 9.0.0-next-9.14
+
+### Patch Changes
+
+- @verdaccio/core@9.0.0-next-9.14
+- @verdaccio/config@9.0.0-next-9.14
+- @verdaccio/auth@9.0.0-next-9.14
+- @verdaccio/logger@9.0.0-next-9.14
+- @verdaccio/middleware@9.0.0-next-9.14
+- @verdaccio/store@9.0.0-next-9.14
+
+## 9.0.0-next-9.13
+
+### Patch Changes
+
+- Updated dependencies [8feba94]
+- Updated dependencies [39c369e]
+  - @verdaccio/store@9.0.0-next-9.13
+  - @verdaccio/core@9.0.0-next-9.13
+  - @verdaccio/auth@9.0.0-next-9.13
+  - @verdaccio/config@9.0.0-next-9.13
+  - @verdaccio/logger@9.0.0-next-9.13
+  - @verdaccio/middleware@9.0.0-next-9.13
+
 ## 9.0.0-next-9.12
 
 ### Patch Changes
